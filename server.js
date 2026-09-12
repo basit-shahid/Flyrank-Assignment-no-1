@@ -13,6 +13,11 @@ let missionslist=[
         missionID:2,
         missionName:"Mission 2",
         missionDescription:"This is mission 2",
+    },
+    {
+        missionID:3,
+        missionName:"Mission 3",
+        missionDescription:"This is mission 3",
     }
 ]
 
@@ -37,8 +42,19 @@ missions.get('/missions',(req,res)=>{
 
     res.json(missionslist);
 
+});
 
+missions.get('/missions/:id',(req,res)=>{
+    const missionID=parseInt(req.params.id);
+    const mission=missionslist.find(m=>m.missionID===missionID);
 
+    if(!mission){
+       return res.status(404).json({error: `Mission ${missionID} not found`});
+
+    }
+    else{
+        res.json(mission);
+    }
 });
 
 missions.listen(PORT,()=>{
