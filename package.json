@@ -1,4 +1,6 @@
 {
+
+  "type": "module",
   "name": "assignment-no-1-backend",
   "version": "1.0.0",
   "main": "index.js",
