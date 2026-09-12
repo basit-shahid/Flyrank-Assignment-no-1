@@ -90,3 +90,4 @@ This happened during testing: creating a mission (e.g. mission ID 4 or 5), then 
 
 - No database is used yet — all data is in-memory and non-persistent by design (see "mortality experiment" above).
 - Input validation is enforced on `POST` and `PUT`: an empty/missing `missionName` returns `400`, and requesting a mission ID that doesn't exist returns `404`.
+- 
