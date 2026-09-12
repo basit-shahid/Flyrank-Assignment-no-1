@@ -72,7 +72,19 @@ http://localhost:3000/docs
 
 Every endpoint can be tested directly from this page using "Try it out."
 
-![Swagger UI CRUD test](swagger-crud-test.png)
+### CRUD verification
+
+The complete CRUD cycle was tested through Swagger UI:
+
+- Created `Swagger Test Mission` with `201 Created`
+- Listed the mission with `200 OK`
+- Updated its description with `200 OK`
+- Deleted it with `204 No Content`
+- Confirmed it no longer appeared in the mission list
+
+<p align="center">
+   <img src="./swagger-crud-test-readme.png" alt="Swagger UI CRUD verification" width="800">
+</p>
 
 ## The mortality experiment
 
