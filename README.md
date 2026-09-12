@@ -10,8 +10,8 @@ This API lets a client create, read, update, and delete mission records through 
 
 1. Clone this repo and move into the project folder:
    ```bash
-   git clone <your-repo-url>
-   cd <project-folder>
+   git clone https://github.com/basit-shahid/Flyrank-Assignment-no-1.git
+   cd Flyrank-Assignment-no-1
    ```
 2. Install dependencies:
    ```bash
@@ -72,9 +72,7 @@ http://localhost:3000/docs
 
 Every endpoint can be tested directly from this page using "Try it out."
 
-
-
-
+![Swagger UI CRUD test](swagger-crud-test.png)
 
 ## The mortality experiment
 
