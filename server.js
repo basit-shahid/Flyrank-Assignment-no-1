@@ -3,6 +3,10 @@ import express from 'express'
 const missions=express()
 const PORT=3000
 
+missions.use(express.json())
+
+let nextID=4
+
 let missionslist=[
     {
         missionID:1,
@@ -55,6 +59,23 @@ missions.get('/missions/:id',(req,res)=>{
     else{
         res.json(mission);
     }
+});
+
+missions.post('/missions',(req,res)=>{
+
+    const {missionName,missionDescription}=req.body;
+
+    if(!missionName|| missionName.trim()===''){
+        return res.status(400).json({error:"Mission name is mandatory"});
+    }
+
+    const newmission={
+        missionID:nextID++,
+        missionName,
+    missionDescription}
+
+    missionslist.push(newmission);
+    res.status(201).json(newmission);
 });
 
 missions.listen(PORT,()=>{
