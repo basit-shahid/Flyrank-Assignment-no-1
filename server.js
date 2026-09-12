@@ -1,4 +1,8 @@
 import express from 'express'
+import swaggerUi from 'swagger-ui-express'
+import { readFileSync } from 'fs'
+
+const openapiSpec = JSON.parse(readFileSync('./openapi.json', 'utf-8'))
 
 const missions=express()
 const PORT=3000
@@ -31,6 +35,8 @@ res.json({message:"Hello, Server!"});
 });
 
 */
+
+missions.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec))
 
 missions.get('/',(req,res)=>{
     res.json({name:"Mission API",version:"1.0",endpoints:["/missions"]})
