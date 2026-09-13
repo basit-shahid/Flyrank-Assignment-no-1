@@ -1,7 +1,7 @@
 import express from 'express'
 import swaggerUi from 'swagger-ui-express'
 import { readFileSync } from 'fs'
-import database from './db.js'
+import db from './db.js'
 
 const openapiSpec = JSON.parse(readFileSync('./openapi.json', 'utf-8'))
 
@@ -35,13 +35,15 @@ missions.get('/health',(req,res)=>{
 
 missions.get('/missions',(req,res)=>{
 
+    const missionslist=db.prepare('SELECT * FROM missions').all();
     res.json(missionslist);
+    
 
 });
 
 missions.get('/missions/:id',(req,res)=>{
     const missionID=parseInt(req.params.id);
-    const mission=missionslist.find(m=>m.missionID===missionID);
+    const mission=db.prepare('SELECT * FROM missions WHERE id=?').get(missionID);
 
     if(!mission){
        return res.status(404).json({error: `Mission ${missionID} not found`});
