@@ -62,13 +62,17 @@ missions.post('/missions',(req,res)=>{
         return res.status(400).json({error:"Mission name is mandatory"});
     }
 
-    const newmission={
-        missionID:nextID++,
-        missionName,
-    missionDescription}
+    const insert=db.prepare('INSERT INTO missions(missionName,missionDescription,done) VALUES(?,?,?)');
+    const result=insert.run(missionName,missionDescription,0);
 
-    missionslist.push(newmission);
+    const newID=result.lastInsertRowid;
+    const newmission=db.prepare('SELECT *FROM missions WHERE id=?').get(newID);
     res.status(201).json(newmission);
+
+
+
+    
+
 });
 
 
