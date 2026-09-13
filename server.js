@@ -79,36 +79,40 @@ missions.post('/missions',(req,res)=>{
 
 missions.put('/missions/:id',(req,res)=>{
     const missionID=parseInt(req.params.id);
-    const mission=missionslist.find(m=>m.missionID===missionID);
+    const mission=db.prepare('SELECT * FROM missions WHERE id=?').get(missionID);
 
     if(!mission){
         return res.status(404).json({error:`Mission ${missionID} not found`});
     }
    
-    const { missionName, missionDescription } = req.body;
+    const { missionName, missionDescription,done } = req.body;
 
-    if (missionName === undefined && missionDescription === undefined) {
-        return res.status(400).json({ error: "Provide missionName and/or missionDescription" });
+    if (missionName === undefined && missionDescription === undefined && done===undefined) {
+        return res.status(400).json({ error: "Provide missionName and/or missionDescription and/or done" });
     }
 
-    if (missionName !== undefined) mission.missionName = missionName;
-    if (missionDescription !== undefined) mission.missionDescription = missionDescription;
+    const updatedName=missionName !==undefined?missionName:mission.missionName;
+    const updatedDescription=missionDescription !==undefined?missionDescription:mission.missionDescription;
+    const updatedDone= done !==undefined? (done ?1:0):mission.done;
 
-    res.json(mission)
+    db.prepare('UPDATE missions SET missionName=?,missionDescription=?,done=? WHERE id=?').run(updatedName,updatedDescription,updatedDone,missionID);
 
+    const updatedMission=db.prepare('SELECT * FROM missions WHERE id=?').get(missionID);
+    res.json(updatedMission);
 
 })
 
 missions.delete('/missions/:id',(req,res)=>{
 
     const missionID=parseInt(req.params.id);
-    const missionIndex=missionslist.findIndex(m=>m.missionID===missionID);
-    if(missionIndex===-1){
+    const mission=db.prepare('SELECT * FROM missions WHERE id=?').get(missionID);
+
+    if(!mission){
         return res.status(404).json({error:`Mission ${missionID} not found`});
 
     }
 
-    missionslist.splice(missionIndex,1);
+    db.prepare('DELETE FROM missions WHERE id=?').run(missionID);
     res.status(204).send();
 
 });
