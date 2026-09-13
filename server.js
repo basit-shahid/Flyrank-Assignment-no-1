@@ -1,33 +1,18 @@
 import express from 'express'
 import swaggerUi from 'swagger-ui-express'
 import { readFileSync } from 'fs'
+import database from './db.js'
 
 const openapiSpec = JSON.parse(readFileSync('./openapi.json', 'utf-8'))
+
 
 const missions=express()
 const PORT=3000
 
 missions.use(express.json())
 
-let nextID=4
 
-let missionslist=[
-    {
-        missionID:1,
-        missionName:"Mission 1",
-        missionDescription:"This is mission 1",
-    },
-    {
-        missionID:2,
-        missionName:"Mission 2",
-        missionDescription:"This is mission 2",
-    },
-    {
-        missionID:3,
-        missionName:"Mission 3",
-        missionDescription:"This is mission 3",
-    }
-]
+
 
 /*
 missions.get('/',(req,res)=>{
